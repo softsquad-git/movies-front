@@ -26,30 +26,35 @@
           </template>
         </q-input>
 
-        <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="add" no-caps label="Create" class="q-ml-sm q-px-md">
+        <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="add" no-caps :label="$t('buttons.create')" class="q-ml-sm q-px-md">
           <q-menu anchor="top end" self="top end">
             <q-list class="text-grey-8" style="min-width: 100px">
               <q-item aria-hidden="true">
-                <q-item-section class="text-uppercase text-grey-7" style="font-size: 0.7rem">Create New</q-item-section>
+                <q-item-section class="text-uppercase text-grey-7" style="font-size: 0.7rem">{{ $t('nav.account.create.title') }}</q-item-section>
               </q-item>
-              <q-item v-for="menu in createMenu" :key="menu.text" clickable v-close-popup aria-hidden="true">
+              <q-item clickable v-close-popup aria-hidden="true">
                 <q-item-section avatar>
-                  <q-icon :name="menu.icon" />
+                  <q-icon name="movie" />
                 </q-item-section>
-                <q-item-section>{{ menu.text }}</q-item-section>
+                <q-item-section>{{ $t('nav.account.create.movie') }}</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup aria-hidden="true">
+                <q-item-section avatar>
+                  <q-icon name="photo" />
+                </q-item-section>
+                <q-item-section>{{ $t('nav.account.create.photo') }}</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup aria-hidden="true">
+                <q-item-section avatar>
+                  <q-icon name="description" />
+                </q-item-section>
+                <q-item-section>{{ $t('nav.account.create.story') }}</q-item-section>
               </q-item>
             </q-list>
           </q-menu>
         </q-btn>
-
-        <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="cloud_upload" no-caps label="Upload" class="q-ml-sm q-px-md" />
-
         <q-space />
-
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="text-grey-7" icon="apps">
-            <q-tooltip>Google Apps</q-tooltip>
-          </q-btn>
           <q-btn round dense flat color="grey-8" icon="notifications">
             <q-badge color="red" text-color="white" floating>
               2
@@ -81,47 +86,77 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" clickable class="GPL__drawer-item">
+          <q-item clickable class="GPL__drawer-item">
             <q-item-section avatar>
-              <q-icon :name="link.icon" />
+              <q-icon name="photo" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label>{{ $t('nav.account.photos') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item clickable class="GPL__drawer-item" :to="{name: 'AccountMovies'}">
+            <q-item-section avatar>
+              <q-icon name="movie" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('nav.account.movies') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item clickable class="GPL__drawer-item">
+            <q-item-section avatar>
+              <q-icon name="movie" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('nav.account.cams') }}</q-item-label>
             </q-item-section>
           </q-item>
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links2" :key="link.text" clickable class="GPL__drawer-item">
+          <q-item clickable class="GPL__drawer-item">
             <q-item-section avatar>
-              <q-icon :name="link.icon" />
+              <q-icon name="archive" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label>{{ $t('nav.account.archive') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item clickable class="GPL__drawer-item">
+            <q-item-section avatar>
+              <q-icon name="delete" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('nav.account.delete') }}</q-item-label>
             </q-item-section>
           </q-item>
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links3" :key="link.text" clickable class="GPL__drawer-item">
+          <q-item clickable class="GPL__drawer-item">
             <q-item-section avatar>
-              <q-icon :name="link.icon" />
+              <q-icon name="delete" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label>{{ $t('nav.account.payments') }}</q-item-label>
             </q-item-section>
           </q-item>
 
           <q-separator class="q-my-md" />
 
-          <q-item clickable class="GPL__drawer-item GPL__drawer-item--storage">
+          <q-item clickable class="GPL__drawer-item">
             <q-item-section avatar>
-              <q-icon name="cloud" />
+              <q-icon name="settings" />
             </q-item-section>
-            <q-item-section top>
-              <q-item-label>Storage</q-item-label>
-              <q-linear-progress :value="storage" class="q-my-sm" />
-              <q-item-label caption>2.6 GB of 15 GB</q-item-label>
+            <q-item-section>
+              <q-item-label>{{ $t('nav.account.settings') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item clickable class="GPL__drawer-item">
+            <q-item-section avatar>
+              <q-icon name="help" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('nav.account.help') }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -129,36 +164,38 @@
     </q-drawer>
 
     <q-page-container class="GPL__page-container">
-      <router-view />
+      <div class="pl-50 pr-50">
+        <router-view />
+      </div>
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
           <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+            <q-icon size="22px" name="home" />
+            <div class="GPL__side-btn__label">{{ $t('nav.account.left.home') }}</div>
+          </q-btn>
+
+          <q-btn :to="{name: 'AccountMovies'}" round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+            <q-icon size="22px" name="movie" />
+            <div class="GPL__side-btn__label">{{ $t('nav.account.left.movies') }}</div>
+          </q-btn>
+
+          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
             <q-icon size="22px" name="photo" />
-            <div class="GPL__side-btn__label">Photos</div>
-          </q-btn>
-
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
-            <q-icon size="22px" name="collections_bookmark" />
-            <div class="GPL__side-btn__label">Albums</div>
-          </q-btn>
-
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
-            <q-icon size="22px" name="assistant" />
-            <div class="GPL__side-btn__label">Assistant</div>
+            <div class="GPL__side-btn__label">{{ $t('nav.account.left.photos') }}</div>
             <q-badge floating color="red" text-color="white" style="top: 8px; right: 16px">
               1
             </q-badge>
           </q-btn>
 
           <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
-            <q-icon size="22px" name="group" />
-            <div class="GPL__side-btn__label">Sharing</div>
+            <q-icon size="22px" name="article" />
+            <div class="GPL__side-btn__label">{{ $t('nav.account.left.stories') }}</div>
           </q-btn>
 
           <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
-            <q-icon size="22px" name="import_contacts" />
-            <div class="GPL__side-btn__label">Photo books</div>
+            <q-icon size="22px" name="settings" />
+            <div class="GPL__side-btn__label">{{ $t('nav.account.left.settings') }}</div>
           </q-btn>
         </div>
       </q-page-sticky>

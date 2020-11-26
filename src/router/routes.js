@@ -11,7 +11,17 @@ const routes = [
     path: '/account',
     component: () => import('layouts/UserLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/account/Index.vue') }
+      { path: '', component: () => import('pages/account/Index.vue') },
+      {
+        path: 'movies',
+        component: () => import('pages/account/movies/Index'),
+        name: 'AccountMovies'
+      },
+      {
+        path: 'movie/:action/:id?',
+        component: () => import('pages/account/movies/Form'),
+        name: 'AccountMovieForm'
+      }
     ]
   },
 
