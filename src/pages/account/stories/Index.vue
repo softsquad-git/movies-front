@@ -6,7 +6,7 @@
           <h3>{{ title }}</h3>
         </div>
         <div class="col-3">
-          <q-btn :to="{name: 'AccountMovieItem', params: {'action': 'create'}}" round outline color="positive"
+          <q-btn :to="{name: 'AccountStoryItem', params: {'action': 'create'}}" round outline color="positive"
                  class="float-right" icon="add">
             <q-tooltip>
               {{ $t('tooltips.create') }}
@@ -40,11 +40,10 @@
                 </q-fab-action>
               </q-fab>
             </td>
-            <td class="text-left bg-grey-4">{{ $t('pages.account.movies.table.title') }}</td>
-            <td class="text-left bg-grey-4">{{ $t('pages.account.movies.table.category') }}</td>
-            <td class="text-left bg-grey-4">{{ $t('pages.account.movies.table.movie') }}</td>
-            <td class="text-left bg-grey-4">{{ $t('pages.account.movies.table.status') }}</td>
-            <td class="text-left bg-grey-4">{{ $t('pages.account.movies.table.created_at') }}</td>
+            <td class="text-left bg-grey-4">{{ $t('pages.account.stories.table.title') }}</td>
+            <td class="text-left bg-grey-4">{{ $t('pages.account.stories.table.category') }}</td>
+            <td class="text-left bg-grey-4">{{ $t('pages.account.stories.table.status') }}</td>
+            <td class="text-left bg-grey-4">{{ $t('pages.account.stories.table.created_at') }}</td>
             <td class="text-left bg-grey-4"></td>
           </tr>
           </thead>
@@ -55,17 +54,16 @@
             </td>
             <td class="text-left">{{ item.title }}</td>
             <td class="text-left">{{ item.category.name }}</td>
-            <td class="text-left"></td>
             <td class="text-left">{{ item.status.name }}</td>
             <td class="text-left">{{ item.created_at }}</td>
             <td class="text-left">
-              <q-btn :to="{name: 'AccountMovieItem', params: {action: 'show', id: item.id}}" round outline
+              <q-btn :to="{name: 'AccountStoryItem', params: {action: 'show', id: item.id}}" round outline
                      color="primary" class="mr-1" icon="visibility">
                 <q-tooltip>
                   {{ $t('tooltips.show') }}
                 </q-tooltip>
               </q-btn>
-              <q-btn :to="{name: 'AccountMovieItem', params: {action: 'edit', id: item.id}}" round outline
+              <q-btn :to="{name: 'AccountStoryItem', params: {action: 'edit', id: item.id}}" round outline
                      color="warning" class="mr-1" icon="create">
                 <q-tooltip>
                   {{ $t('tooltips.edit') }}
@@ -89,7 +87,7 @@ export default {
   },
   data() {
     return {
-      title: this.$t('pages.account.movies.title'),
+      title: this.$t('pages.account.stories.title'),
       data: {},
       params: {
         title: '',
@@ -104,20 +102,21 @@ export default {
   },
   methods: {
     loadData() {
-      this.$axios.get(`user/movies/all`)
-        .then((data) => {
-          this.data = data.data;
-          this.loadCategories();
-        })
-        .catch((error) => {
-          //
-        })
+      this.$axios.get(`user/stories/all`)
+      .then((data) => {
+        this.data = data.data;
+        this.loadCategories();
+      })
+      .catch((error) => {
+        //
+      })
     },
     onRemove() {
-      this.$axios.delete(`user/movies/remove?ids=${JSON.stringify(this.selected)}`)
+      this.$axios.delete(`user/stories/remove?ids=${JSON.stringify(this.selected)}`)
         .then((data) => {
           if (data.data.success === 1) {
             this.loadData();
+            this.selected = [];
             this.$q.notify({
               message: data.data.msg
             })
@@ -128,19 +127,19 @@ export default {
         })
     },
     onArchive() {
-      this.$axios.post(`user/movies/archive?ids=${JSON.stringify(this.selected)}`)
-      .then((data) => {
-        if (data.data.success === 1) {
-          this.loadData();
-          this.selected = [];
-          this.$q.notify({
-            message: data.data.msg
-          })
-        }
-      })
-      .catch((error) => {
-        //
-      })
+      this.$axios.post(`user/stories/archive?ids=${JSON.stringify(this.selected)}`)
+        .then((data) => {
+          if (data.data.success === 1) {
+            this.loadData();
+            this.selected = [];
+            this.$q.notify({
+              message: data.data.msg
+            })
+          }
+        })
+        .catch((error) => {
+          //
+        })
     },
     loadCategories() {
       this.$axios.get('categories/all')

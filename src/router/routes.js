@@ -4,7 +4,12 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Index.vue'), name: 'IndexPage' },
+      {
+        path: 'auth/:action',
+        component: () => import('pages/auth/Index'),
+        name: 'Auth'
+      }
     ]
   },
   {
@@ -19,8 +24,28 @@ const routes = [
       },
       {
         path: 'movie/:action/:id?',
-        component: () => import('pages/account/movies/Form'),
-        name: 'AccountMovieForm'
+        component: () => import('pages/account/movies/Item'),
+        name: 'AccountMovieItem'
+      },
+      {
+        path: 'stories',
+        component: () => import('pages/account/stories/Index'),
+        name: 'AccountStories'
+      },
+      {
+        path: 'story/:action/:id?',
+        component: () => import('pages/account/stories/Item'),
+        name: 'AccountStoryItem'
+      },
+      {
+        path: 'albums',
+        component: () => import('pages/account/photos/albums/Index'),
+        name: 'AccountAlbums'
+      },
+      {
+        path: 'album/:album_id/photos',
+        component: () => import('pages/account/photos/Index'),
+        name: 'AccountAlbumPhotos'
       }
     ]
   },

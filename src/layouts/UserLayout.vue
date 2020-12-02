@@ -86,7 +86,7 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item clickable class="GPL__drawer-item">
+          <q-item :to="{name: 'AccountAlbums'}" clickable class="GPL__drawer-item">
             <q-item-section avatar>
               <q-icon name="photo" />
             </q-item-section>
@@ -180,15 +180,12 @@
             <div class="GPL__side-btn__label">{{ $t('nav.account.left.movies') }}</div>
           </q-btn>
 
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn :to="{name: 'AccountAlbums'}" round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
             <q-icon size="22px" name="photo" />
             <div class="GPL__side-btn__label">{{ $t('nav.account.left.photos') }}</div>
-            <q-badge floating color="red" text-color="white" style="top: 8px; right: 16px">
-              1
-            </q-badge>
           </q-btn>
 
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn :to="{name: 'AccountStories'}" round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
             <q-icon size="22px" name="article" />
             <div class="GPL__side-btn__label">{{ $t('nav.account.left.stories') }}</div>
           </q-btn>
