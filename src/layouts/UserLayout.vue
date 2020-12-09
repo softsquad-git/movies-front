@@ -18,54 +18,46 @@
         </q-toolbar-title>
 
         <q-space />
+        <q-btn
+          icon="home"
+          flat
+          :to="{name: 'IndexPage'}"
+          />
 
-        <q-input class="GPL__toolbar-input" dense standout="bg-primary" v-model="search" placeholder="Search">
-          <template v-slot:prepend>
-            <q-icon v-if="search === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
-          </template>
-        </q-input>
+        <q-btn-dropdown color="primary" icon="add" flat outline :label="$t('buttons.create')">
+          <q-list>
+            <q-item :to="{name: 'AccountMovieItem', params: {'action': 'create'}}" clickable v-close-popup>
+              <q-item-section>
+                <q-item-label>{{ $t('nav.account.create.movie') }}</q-item-label>
+              </q-item-section>
+            </q-item>
 
-        <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="add" no-caps :label="$t('buttons.create')" class="q-ml-sm q-px-md">
-          <q-menu anchor="top end" self="top end">
-            <q-list class="text-grey-8" style="min-width: 100px">
-              <q-item aria-hidden="true">
-                <q-item-section class="text-uppercase text-grey-7" style="font-size: 0.7rem">{{ $t('nav.account.create.title') }}</q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup aria-hidden="true">
-                <q-item-section avatar>
-                  <q-icon name="movie" />
-                </q-item-section>
-                <q-item-section>{{ $t('nav.account.create.movie') }}</q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup aria-hidden="true">
-                <q-item-section avatar>
-                  <q-icon name="photo" />
-                </q-item-section>
-                <q-item-section>{{ $t('nav.account.create.photo') }}</q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup aria-hidden="true">
-                <q-item-section avatar>
-                  <q-icon name="description" />
-                </q-item-section>
-                <q-item-section>{{ $t('nav.account.create.story') }}</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
+            <q-item :to="{name: 'AccountAlbums'}" clickable v-close-popup>
+              <q-item-section>
+                <q-item-label>{{ $t('nav.account.create.photo') }}</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item :to="{name: 'AccountStoryItem', params: {'action': 'create'}}" clickable v-close-popup>
+              <q-item-section>
+                <q-item-label>{{ $t('nav.account.create.story') }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+
         <q-space />
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="grey-8" icon="notifications">
-            <q-badge color="red" text-color="white" floating>
-              2
-            </q-badge>
-            <q-tooltip>Notifications</q-tooltip>
+          <q-btn icon="power_settings_new" flat round>
+            <q-tooltip>
+              {{ $t('nav.account.logout') }}
+            </q-tooltip>
           </q-btn>
-          <q-btn round flat>
+          <q-btn :to="{name: 'Setting', params: {type: 'avatar'}}" round flat>
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img :src="$avatar" :alt="$userName">
             </q-avatar>
-            <q-tooltip>Account</q-tooltip>
+            <q-tooltip>{{ $userName }}</q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
@@ -79,7 +71,7 @@
     >
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
-          <q-toolbar-title class="row items-center text-grey-8">
+          <q-toolbar-title  class="row items-center text-grey-8">
             <img class="q-pl-md" src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg">
             <span class="q-ml-sm">Photos</span>
           </q-toolbar-title>
@@ -115,25 +107,6 @@
 
           <q-item clickable class="GPL__drawer-item">
             <q-item-section avatar>
-              <q-icon name="archive" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ $t('nav.account.archive') }}</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item clickable class="GPL__drawer-item">
-            <q-item-section avatar>
-              <q-icon name="delete" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ $t('nav.account.delete') }}</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-separator class="q-my-md" />
-
-          <q-item clickable class="GPL__drawer-item">
-            <q-item-section avatar>
               <q-icon name="delete" />
             </q-item-section>
             <q-item-section>
@@ -143,7 +116,7 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item clickable class="GPL__drawer-item">
+          <q-item :to="{name: 'Setting', params: {type: 'basic'}}" clickable class="GPL__drawer-item">
             <q-item-section avatar>
               <q-icon name="settings" />
             </q-item-section>
@@ -170,7 +143,7 @@
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn :to="{name: 'AccountPage'}" round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
             <q-icon size="22px" name="home" />
             <div class="GPL__side-btn__label">{{ $t('nav.account.left.home') }}</div>
           </q-btn>
@@ -190,7 +163,7 @@
             <div class="GPL__side-btn__label">{{ $t('nav.account.left.stories') }}</div>
           </q-btn>
 
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn :to="{name: 'Setting', params: {type: 'basic'}}" round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
             <q-icon size="22px" name="settings" />
             <div class="GPL__side-btn__label">{{ $t('nav.account.left.settings') }}</div>
           </q-btn>
@@ -207,31 +180,7 @@ export default {
     return {
       leftDrawerOpen: false,
       search: '',
-      storage: 0.26,
-      links1: [
-        { icon: 'photo', text: 'Photos' },
-        { icon: 'photo_album', text: 'Albums' },
-        { icon: 'assistant', text: 'Assistant' },
-        { icon: 'people', text: 'Sharing' },
-        { icon: 'book', text: 'Photo books' }
-      ],
-      links2: [
-        { icon: 'archive', text: 'Archive' },
-        { icon: 'delete', text: 'Trash' }
-      ],
-      links3: [
-        { icon: 'settings', text: 'Settings' },
-        { icon: 'help', text: 'Help & Feedback' },
-        { icon: 'get_app', text: 'App Downloads' }
-      ],
-      createMenu: [
-        { icon: 'photo_album', text: 'Album' },
-        { icon: 'people', text: 'Shared Album' },
-        { icon: 'movie', text: 'Movie' },
-        { icon: 'library_books', text: 'Animation' },
-        { icon: 'dashboard', text: 'Collage' },
-        { icon: 'book', text: 'Photo book' }
-      ]
+      storage: 0.26
     }
   }
 }

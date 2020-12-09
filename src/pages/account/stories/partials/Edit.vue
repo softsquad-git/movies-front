@@ -28,7 +28,7 @@
         />
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-1">
       <div class="col-6">
         <q-select
           v-model="data.is_comment"
@@ -54,12 +54,16 @@
         />
       </div>
     </div>
+    <error-component :errors="errors" ref="onErrorComponent"/>
   </q-form>
 </template>
 
 <script>
 export default {
   name: "Edit",
+  components: {
+    ErrorComponent: () => import('components/ErrorComponent')
+  },
   data() {
     return {
       data: {
@@ -73,7 +77,8 @@ export default {
       boolOptions: [
         {value: 1, text: this.$t('globals.yes')},
         {value: 0, text: this.$t('globals.no')}
-      ]
+      ],
+      errors: []
     }
   },
   methods: {
@@ -88,7 +93,10 @@ export default {
           }
         })
         .catch((error) => {
-          //
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors;
+            this.$refs.onErrorComponent.openModal()
+          }
         })
     }
   },
@@ -99,18 +107,18 @@ export default {
       }).catch((error) => {
     });
     this.$axios.get(`user/stories/find/${this.$route.params.id}`)
-    .then((data) => {
-      const story = data.data.data;
-      this.data.title = story.title;
-      this.data.category_id = story.category.id;
-      this.data.content = story.content;
-      this.data.is_comment = story.is_comment;
-      this.data.is_rating = story.is_rating;
+      .then((data) => {
+        const story = data.data.data;
+        this.data.title = story.title;
+        this.data.category_id = story.category.id;
+        this.data.content = story.content;
+        this.data.is_comment = story.is_comment;
+        this.data.is_rating = story.is_rating;
 
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
 
-    })
+      })
   }
 }
 </script>

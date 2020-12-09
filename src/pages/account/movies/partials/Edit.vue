@@ -62,17 +62,20 @@
                     :multiple="false"
                     class="full-width"
                     :factory="save"
-                    accept=".jpg, .png, .gif, image/*"
                     ref="files">
         </q-uploader>
       </div>
     </div>
+    <error-component :errors="errors" ref="onErrorComponent"/>
   </q-form>
 </template>
 
 <script>
 export default {
   name: "Edit",
+  components: {
+    ErrorComponent: () => import('components/ErrorComponent')
+  },
   data() {
     return {
       data: {
@@ -87,7 +90,8 @@ export default {
       boolOptions: [
         {value: 1, text: this.$t('globals.yes')},
         {value: 0, text: this.$t('globals.no')}
-      ]
+      ],
+      errors: []
     }
   },
   methods: {
@@ -118,7 +122,10 @@ export default {
           }
         })
         .catch((error) => {
-          //
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors;
+            this.$refs.onErrorComponent.openModal()
+          }
         })
     }
   },

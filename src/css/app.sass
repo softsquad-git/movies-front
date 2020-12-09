@@ -2,6 +2,12 @@
 .mr-1
   margin-right: 10px !important
 
+.m-0
+  margin: 0 !important
+
+.mt-4
+  margin-top: 40px!important
+
 .p-50
   padding: 50px !important
 
@@ -18,7 +24,7 @@
   margin-top: 10px !important
 
 .mb-1
-  margin-bottom: 10px!important
+  margin-bottom: 10px !important
 
 .p-5
   padding: 5px !important
@@ -36,27 +42,65 @@
       margin: 0
       font-size: 25px
 
+  .__info__stat
+    border: 1px solid #e6e6e6
+    border-radius: 3px
+    background: white
+    padding: 20px 0
+    .__icon
+      font-size: 40px
+      display: flex
+      align-items: center
+      justify-content: center
+      height: 100%
+      i
+        padding: 15px
+        border: 5px solid
+        border-image-slice: 1
+        border-image-source: linear-gradient(to left, #00C853, #B2FF59)
+    h2
+      margin: 10px 0
+    span
+      font-size: 17px
+
+  .admin-page-block
+    padding: 10px
+    background: white
+    border: 1px solid #e6e6e6
+    a
+      display: block
+      border-bottom: 1px solid #e6e6e6
+      padding: 9px
+      font-size: 17px
+      color: #000
+      i
+        font-size: 30px
+        margin-right: 10px
+
 .cursor:hover
   cursor: pointer !important
 
 .my-card.height
-    height: 220px
+  height: 220px
 
 .auth-page
   .card
     padding: 10px
     margin-top: 50px
+
     ._content
       margin-top: 20px
       padding: 5px
+
       button
         margin-top: 20px
+
       a
         display: block
         margin-top: 5px
 
 .b-active
-  border-bottom: 1px solid #cecece!important
+  border-bottom: 1px solid #cecece !important
 
 .info
   margin-top: 20px
@@ -66,5 +110,139 @@
 
 a
   text-decoration: none
+
   &:hover
     text-decoration: none
+
+.round
+  border-radius: 50% !important
+
+.page
+  .movie
+    a
+      color: #424242
+      display: block
+
+      &:hover
+        collapse: #000
+
+  .story
+    border: 1px solid #ececec
+    padding: 5px
+    border-radius: 5px
+    margin-bottom: 5px
+
+    h4
+      margin: 0
+      font-size: 20px
+      border-bottom: 1px solid #ececec
+
+      a
+        color: #1D1D1D
+
+        &:hover
+          color: #3c3838
+
+  .page-movie
+    ._footer
+      border-bottom: 1px solid gainsboro
+      padding-bottom: 10px
+
+      .icon
+        margin-right: 10px
+
+    ._sidebar
+      padding: 10px
+
+    ._content
+      padding: 10px
+
+      h3.title
+        font-size: 20px
+        margin: 0 !important
+
+      .info
+        margin-top: 0 !important
+
+        span._txt
+          font-size: 15px
+
+        a._link
+          padding: 0 5px 0 5px
+          font-weight: bold
+          letter-spacing: 1px
+          font-size: 14px
+          color: #616161
+
+        p.desc
+          margin: 10px auto
+          font-size: 14px
+          color: #585858
+
+    ._sidebar
+      h3
+        font-size: 18px
+        text-transform: uppercase
+        font-weight: bold
+        margin: 0
+        color: #383737
+
+.comments
+  padding: 10px
+
+  a
+    color: #616161
+    font-weight: bold
+
+  ._content
+    padding-left: 0 !important
+
+  .list
+    .icon
+      font-size: 11px !important
+      color: gray
+      margin: 10px 10px 0 0
+
+.profile-page
+  margin: 30px auto
+
+  .__avatar
+    border-radius: 2%
+    max-width: 250px
+
+  .__name
+    font-size: 20px
+    padding: 10px 0
+
+  .__nav
+    margin-top: 30px
+    text-align: center
+
+    .___link
+      display: block
+      font-size: 17px
+      color: #3c3838
+      padding: 10px
+      max-width: 300px
+      margin: 5px auto
+      text-transform: uppercase
+
+  .____page
+    ._title
+      font-size: 20px
+      border-bottom: 1px solid #ece2e2
+      padding: 5px 0
+
+.q-btn-item
+  margin-right: 5px
+
+.like-footer
+  margin-top: 10px
+  float: right
+
+.search-form
+  padding: 6px
+  margin: 10px 0
+.bg-dark-transparent
+  background: #00000087
+  height: 100%!important

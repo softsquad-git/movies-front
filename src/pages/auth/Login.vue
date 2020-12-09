@@ -38,6 +38,7 @@ export default {
           localStorage.setItem('token', data.data.payload.access_token);
           localStorage.setItem('user_id', data.data.payload.user_id);
           localStorage.setItem('name', data.data.payload.name);
+          localStorage.setItem('avatar', data.data.payload.avatar);
           if (data.data.payload.is_verified === 0) {
             return this.$router.push({name: 'Auth', params: {action: 'activate'}})
           }

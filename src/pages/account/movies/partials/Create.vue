@@ -1,78 +1,81 @@
 <template>
-<q-form @submit.prevent="save">
-  <div class="row">
-    <div class="col-8">
-      <q-input
-        v-model="data.title"
-        :label="$t('pages.account.movies.form.title')"
-        :hint="$t('pages.account.movies.form.title_hint')"
-      />
+  <q-form @submit.prevent="save">
+    <div class="row">
+      <div class="col-8">
+        <q-input
+          v-model="data.title"
+          :label="$t('pages.account.movies.form.title')"
+          :hint="$t('pages.account.movies.form.title_hint')"
+        />
+      </div>
+      <div class="col-4">
+        <q-select
+          v-model="data.category_id"
+          :options="categories"
+          :label="$t('pages.account.movies.form.category')"
+          :hint="$t('pages.account.movies.form.category_hint')"
+          emit-value
+          map-options
+          option-value="id"
+          option-label="name"
+        />
+      </div>
     </div>
-    <div class="col-4">
-      <q-select
-        v-model="data.category_id"
-        :options="categories"
-        :label="$t('pages.account.movies.form.category')"
-        :hint="$t('pages.account.movies.form.category_hint')"
-        emit-value
-        map-options
-        option-value="id"
-        option-label="name"
-      />
+    <div class="row">
+      <div class="col-12">
+        <q-input
+          v-model="data.description"
+          clearable
+          autogrow
+          :label="$t('pages.account.movies.form.description')"
+          :hint="$t('pages.account.movies.form.description_hint')"
+        />
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <q-input
-        v-model="data.description"
-        clearable
-        autogrow
-        :label="$t('pages.account.movies.form.description')"
-        :hint="$t('pages.account.movies.form.description_hint')"
-      />
+    <div class="row">
+      <div class="col-4">
+        <q-select
+          v-model="data.is_comment"
+          :options="boolOptions"
+          :label="$t('pages.account.movies.form.is_comment')"
+          :hint="$t('pages.account.movies.form.is_comment_hint')"
+          emit-value
+          map-options
+          option-value="value"
+          option-label="text"
+        />
+      </div>
+      <div class="col-4">
+        <q-select
+          v-model="data.is_rating"
+          :options="boolOptions"
+          :label="$t('pages.account.movies.form.is_rating')"
+          :hint="$t('pages.account.movies.form.is_rating_hint')"
+          emit-value
+          map-options
+          option-value="value"
+          option-label="text"
+        />
+      </div>
+      <div class="col-4">
+        <q-uploader :label="$t('pages.account.movies.form.file')"
+                    :multiple="false"
+                    class="full-width"
+                    :factory="save"
+                    ref="files">
+        </q-uploader>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-4">
-      <q-select
-        v-model="data.is_comment"
-        :options="boolOptions"
-        :label="$t('pages.account.movies.form.is_comment')"
-        :hint="$t('pages.account.movies.form.is_comment_hint')"
-        emit-value
-        map-options
-        option-value="value"
-        option-label="text"
-      />
-    </div>
-    <div class="col-4">
-      <q-select
-        v-model="data.is_rating"
-        :options="boolOptions"
-        :label="$t('pages.account.movies.form.is_rating')"
-        :hint="$t('pages.account.movies.form.is_rating_hint')"
-        emit-value
-        map-options
-        option-value="value"
-        option-label="text"
-      />
-    </div>
-    <div class="col-4">
-      <q-uploader :label="$t('pages.account.movies.form.file')"
-                  :multiple="false"
-                  class="full-width"
-                  :factory="save"
-                  accept=".jpg, .png, .gif, image/*"
-                  ref="files">
-      </q-uploader>
-    </div>
-  </div>
-</q-form>
+    <error-component :errors="errors" ref="onErrorComponent"/>
+  </q-form>
 </template>
 
 <script>
 export default {
   name: "Create",
+  components: {
+    ErrorComponent: () => import('components/ErrorComponent')
+  },
   data() {
     return {
       data: {
@@ -87,7 +90,8 @@ export default {
       boolOptions: [
         {value: 1, text: this.$t('globals.yes')},
         {value: 0, text: this.$t('globals.no')}
-      ]
+      ],
+      errors: []
     }
   },
   methods: {
@@ -102,24 +106,28 @@ export default {
       formData.append('is_comment', this.data.is_comment);
       formData.append('is_rating', this.data.is_rating);
       this.$axios.post('user/movies/create', formData)
-      .then((data) => {
-        if (data.data.success === 1) {
-          this.$router.push({name: 'AccountMovies'});
-          this.$q.notify({
-            message: data.data.msg
-          })
-        }
-      })
-      .catch((error) => {
-        //
-      })
+        .then((data) => {
+          if (data.data.success === 1) {
+            this.$router.push({name: 'AccountMovies'});
+            this.$q.notify({
+              message: data.data.msg
+            })
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors;
+            this.$refs.onErrorComponent.openModal()
+          }
+        })
     }
   },
   created() {
     this.$axios.get('categories/all')
-    .then((data) => {
-      this.categories = data.data.data
-    }).catch((error) => {})
+      .then((data) => {
+        this.categories = data.data.data
+      }).catch((error) => {
+    })
   }
 }
 </script>

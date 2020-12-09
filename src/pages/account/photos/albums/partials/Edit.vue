@@ -54,12 +54,16 @@
         </q-btn>
       </q-card-actions>
     </q-card>
+    <error-component :errors="errors" ref="onErrorComponent"/>
   </q-dialog>
 </template>
 
 <script>
 export default {
   name: "Edit",
+  components: {
+    ErrorComponent: () => import('components/ErrorComponent')
+  },
   data() {
     return {
       title: this.$t('pages.account.photos.albums.edit'),
@@ -74,7 +78,8 @@ export default {
         {value: 1, text: this.$t('globals.yes')},
         {value: 0, text: this.$t('globals.no')}
       ],
-      itemId: null
+      itemId: null,
+      errors: []
     }
   },
   methods: {
@@ -90,7 +95,10 @@ export default {
         }
       })
       .catch((error) => {
-        //
+        if (error.response.status === 422) {
+          this.errors = error.response.data.errors;
+          this.$refs.onErrorComponent.openModal()
+        }
       })
     },
     openModal(item) {

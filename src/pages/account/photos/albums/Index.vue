@@ -60,7 +60,7 @@
               <q-item-label caption>{{ item.status.name }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-img @click="onShowPhotos(item.id)" class="cursor" :src="item.img" :alt="item.name">
+          <q-img @click="onShowPhotos(item.id)" style="min-height: 165px" class="cursor" :src="item.img" :alt="item.name">
             <q-tooltip>
               {{ $t('tooltips.show_photos') }}
             </q-tooltip>

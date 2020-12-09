@@ -36,21 +36,26 @@
         </q-btn>
       </q-card-actions>
     </q-card>
+    <error-component :errors="errors" ref="onErrorComponent"/>
   </q-dialog>
 </template>
 
 <script>
 export default {
   name: "Create",
+  components: {
+    ErrorComponent: () => import('components/ErrorComponent')
+  },
   data() {
-    return{
+    return {
       title: this.$t('pages.account.photos.create'),
       data: {
         photos: []
       },
       albumId: null,
       isShow: false,
-      albums: []
+      albums: [],
+      errors: []
     }
   },
   methods: {
@@ -62,24 +67,27 @@ export default {
         formData.append('photos[' + i + ']', photo, photo.name);
       }
       this.$axios.post(`user/albums/photos/create?album_id=${this.albumId}`, formData)
-      .then((data) => {
-        if (data.data.success) {
-          this.$emit('success');
-          this.$q.notify({
-            message: data.data.msg
-          });
-          this.isShow = false;
-        }
-      })
-      .catch((error) => {
-        //
-      })
+        .then((data) => {
+          if (data.data.success) {
+            this.$emit('success');
+            this.$q.notify({
+              message: data.data.msg
+            });
+            this.isShow = false;
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors;
+            this.$refs.onErrorComponent.openModal()
+          }
+        })
     },
     openModal(albumId = null) {
       if (albumId !== null) {
         this.albumId = albumId;
       }
-     this.loadAlbums();
+      this.loadAlbums();
     },
     loadAlbums() {
       this.$axios.get(`user/albums/find-all`)

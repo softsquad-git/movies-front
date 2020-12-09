@@ -55,7 +55,9 @@
             </td>
             <td class="text-left">{{ item.title }}</td>
             <td class="text-left">{{ item.category.name }}</td>
-            <td class="text-left"></td>
+            <td class="text-left">
+              <q-img :src="item.thumb" :alt="item.title"/>
+            </td>
             <td class="text-left">{{ item.status.name }}</td>
             <td class="text-left">{{ item.created_at }}</td>
             <td class="text-left">
